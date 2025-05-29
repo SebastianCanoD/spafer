@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${servicioForm.id == null ? 'Agregar Servicio' : 'Editar Servicio'}">Formulario Servicio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+body {
+    background-color: #f8f9fa;
+}
+.form-container {
+    background-color: #fce4ec;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+.form-container input[type="text"], .form-container input[type="number"],
+    .form-container textarea, .form-container select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.form-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff80ab;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+.form-container input[type="submit"]:hover {
+    background-color: #ff4081;
+}
+</style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4"
+            th:text="${servicioForm.id == null ? 'Agregar Servicio' : 'Actualizar Servicio'}">Formulario Servicio</h2>
+        <div class="form-container">
+            <form th:object="${servicioForm}"
+                th:action="@{${servicioForm.id == null ? '/servicios/agregar' : '/servicios/editar/' + servicioForm.id}}"
+                method="post">
+                <div class="mb-3">
+                    <label for="nombre">Nombre del Servicio:</label> 
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" th:field="*{descripcion}" class="form-control" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="precio">Precio:</label> 
+                    <input type="number" id="precio" th:field="*{precio}" step="0.01" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="duracion">Duración (minutos):</label> 
+                    <input type="number" id="duracion" th:field="*{duracion}" class="form-control" required>
+                </div>
+                <!-- Campo para activo y categoría -->
+                <div class="mb-3">
+                    <label for="activo">Activo:</label> 
+                    <select id="activo" th:field="*{activo}" class="form-control">
+                        <option th:value="true" th:text="'Sí'"></option>
+                        <option th:value="false" th:text="'No'"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="categoria">Categoría:</label> 
+                    <input type="text" id="categoria" th:field="*{categoria}" class="form-control">
+                </div>
+                <input type="submit"
+                    th:value="${servicioForm.id == null ? 'Agregar Servicio' : 'Actualizar Servicio'}"
+                    class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

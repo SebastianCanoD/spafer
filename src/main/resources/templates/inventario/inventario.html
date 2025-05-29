@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario de Insumos</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<style>
+    body {
+        background-color: #f8f9fa; 
+    }
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 8px;
+    }
+
+    .table td {
+        background-color: #fce4ec; 
+        padding: 10px;
+        text-align: center;
+    }
+
+    .table th {
+        background-color: #ff80ab; 
+        padding: 10px;
+        text-align: center;
+    }
+
+    .table td:nth-child(odd) {
+        background-color: #f8bbd0; 
+    }
+    .form-container {
+        background-color: #fce4ec;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        margin: auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .form-container input[type="text"] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+    }
+
+    .form-container input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #ff80ab;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .form-container input[type="submit"]:hover {
+        background-color: #ff4081;
+    }
+    .btn-pink {
+    background-color: #ff80ab;
+    color: white;
+    border: none;
+   }
+	.btn-pink:hover {
+    background-color: #ff4081;
+    color: white;
+	}
+    
+</style>
+</head>
+<body>
+<div th:insert="fragments/encabezado :: navbar"></div>
+<div class="container mt-4">
+    <h2>Inventario de Insumos</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre del Insumo</th>
+                <th>Categoría</th>
+                <th>Cantidad Disponible</th>
+                <th>Unidad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="insumo : ${inventario}">
+                <td th:text="${insumo.nombre}"></td>
+                <td th:text="${insumo.categoria}"></td>
+                <td>
+                    <span th:text="${insumo.cantidad}"></span>
+                    <span th:if="${insumo.cantidad <= 5}" class="badge badge-low ms-2">Bajo stock</span>
+                </td>
+                <td th:text="${insumo.unidad}"></td>
+                <td>
+                    <a th:href="@{/inventario/editar/{id}(id=${insumo.id})}" class="btn btn-sm btn-warning">Editar</a>
+                    <form th:action="@{/inventario/eliminar/{id}(id=${insumo.id})}" method="post" class="d-inline">
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center mt-4">
+        <a th:href="@{/inventario/nuevo}" class="btn btn-primary">Agregar Insumo</a>
+        <a th:href="@{/}" class="btn btn-secondary">Volver al inicio</a>
+    </div>
+</div>
+</body>
+</html>

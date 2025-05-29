@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agendar Cita</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table {
+            border-collapse: separate;
+            border-spacing: 8px;
+        }
+        .table td {
+            background-color: #fce4ec;
+            padding: 10px;
+            text-align: center;
+        }
+        .table th {
+            background-color: #ff80ab;
+            padding: 10px;
+            text-align: center;
+        }
+        .table td:nth-child(odd) {
+            background-color: #f8bbd0;
+        }
+        .form-container {
+            background-color: #fce4ec;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="datetime-local"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        .form-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff80ab;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .form-container input[type="submit"]:hover {
+            background-color: #ff4081;
+        }
+    </style>
+</head>
+<body>
+    <!-- Actualiza la inserción del fragmento usando la sintaxis recomendada -->
+    <div th:insert="~{fragments/encabezado :: navbar}"></div>
+
+    <div class="container mt-5">
+        <div class="form-container">
+            <h2 class="text-center mb-4">Agendar una Cita</h2>
+            <form th:action="@{/citas/agendar}" method="post">
+                <!-- Dropdown para seleccionar el servicio; se preselecciona el servicio si viene en "servicioSeleccionado" -->
+                <label for="servicio">Servicio:</label>
+                <select class="form-control mb-3" name="servicioId" id="servicio" required>
+                    <option th:each="servicio : ${servicios}" 
+                            th:value="${servicio.id}" 
+                            th:selected="${servicioSeleccionado != null and servicio.id == servicioSeleccionado.id}" 
+                            th:text="${servicio.nombre}">Servicio</option>
+                </select>
+
+                <!-- Dropdown para empleados disponibles -->
+                <label for="empleado">Empleado:</label>
+                <select class="form-control mb-3" name="empleadoId" id="empleado" required>
+                    <option th:each="empleado : ${empleados}" 
+                            th:value="${empleado.id}" 
+                            th:text="${empleado.nombre}">Empleado</option>
+                </select>
+
+                <!-- Fecha y hora para la cita -->
+                <label for="fechaCita">Fecha y hora:</label>
+                <input class="form-control mb-3" type="datetime-local" name="fechaCita" id="fechaCita" required />
+
+                <!-- Notas opcionales -->
+                <label for="notas">Notas:</label>
+                <input class="form-control mb-4" type="text" name="notas" id="notas" placeholder="Opcional" />
+
+                <input type="submit" value="Agendar Cita" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>
